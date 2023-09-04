@@ -117,9 +117,9 @@ def handle_text_message(event):
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text="Bot can't use profile API without user ID"))
-    else:
-        line_bot_api.reply_message(
-            event.reply_token, TextSendMessage(text=event.message.text))
+    # else:
+    #     line_bot_api.reply_message(
+    #         event.reply_token, TextSendMessage(text=event.message.text))
 
 
 @handler.add(MessageEvent, message=LocationMessage)
@@ -182,7 +182,7 @@ def handle_content_message(event):
 
     line_bot_api.reply_message(
         event.reply_token, [
-            TextSendMessage(text='Object detection result:'),
+            TextSendMessage(text="ผลการตรวจโรค:"),
             ImageSendMessage(url,url)
         ])
 
