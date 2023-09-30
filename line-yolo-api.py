@@ -174,17 +174,143 @@ def handle_content_message(event):
         name = r['name']
         label = f'{name} {r.confidence:.2f}'
         annotator.box_label((r.xmin, r.ymin, r.xmax, r.ymax), label, color=colors(c, True))
+        
 
     save_path = str(save_dir + os.path.basename(tempfile_path) + '_result.' + ext) 
     cv2.imwrite(save_path, im0)
 
     url = request.url_root + '/' + save_path
 
-    line_bot_api.reply_message(
-        event.reply_token, [
-            TextSendMessage(text="ผลการตรวจโรค:"),
-            ImageSendMessage(url,url)
-        ])
+    # line_bot_api.reply_message(
+    #     event.reply_token, [
+    #         TextSendMessage(text="ผลการตรวจโรค:"),
+    #         ImageSendMessage(url,url),
+    #     ])
+    if name=="Anthracnose":
+        line_bot_api.reply_message(
+            event.reply_token, [
+                TextSendMessage(text="ผลการตรวจโรค:"),
+                ImageSendMessage(url,url),
+                TextSendMessage(text=
+'''
+พบเจอโรค แอนเเทรคโนส (anthracnose)  เกิดจากเชื้อรา Colletotrichum Zibethinum ทำลายช่อดอกในระยะช่อบาน ทำให้ดอกมีสีคล้ำ เน่าดำก่อนบาน มีราสีเทาดำปกคลุมเกสร กลีบดอก ทำให้ดอกแห้ง ร่วงหล่น
+
+วิธีรักษาโรค:
+1.ตัดแต่งพุ่มให้โปร่ง
+2.ฉีดพ่นด้วย mancozeb ผสมหรือสลับกับ carbendazim
+3.ฉีดพ่นด้วย ผลิตภัณฑ์ ซุปเปอร์โวก้าโปรคีโตพลัส ในช่วงเย็น (ห้ามใช้สารเคมีกำจัดเชื้อรา ร่วมกับ คีโตพลัส)
+4.เติมสารซุปเปอร์ซิลิคอนโวก้า 1 ช้อนโต๊ะ ในถังฉีด เพื่อเพิ่มประสิทธิภาพของ สารเคมี  
+
+ยาที่ใช้ในการรักษาโรค:
+1.จัมเปอร์
+    https://shope.ee/6fErA9IocH
+2.เค็นจิ
+    https://shope.ee/hvk4PDUH
+3.การ์แรต
+    https://shope.ee/4pnCzc9Bnc
+''')
+            ])
+
+
+    if name=="Leaf Spot":
+        line_bot_api.reply_message(
+            event.reply_token, [
+                TextSendMessage(text="ผลการตรวจโรค:"),
+                ImageSendMessage(url,url),
+                TextSendMessage(text=
+'''
+พบเจอโรค ใบจุด (Leaf Spot) เกิดจากเชื้อราหลายชนิด โดย หากเป็นเชื้อ Colletotrichum sp. ซึ่งทำให้เกิดโรคแอนแทรคโนส ใบอ่อนจะมีสีซีดคล้ายโดนน้ำร้อนลวก ส่วนขยายพันธุ์เป็นจุดดำ ๆ ส่วนใบแก่เป็นจุดกลมขอบแผลสีเข้ม และมีการขยายขนาด
+
+วิธีรักษาโรค:
+1.ฉีดพ่นทุเรียนระยะใบอ่อน ด้วย สารกลุ่ม mancozeb ผสมกับกลุ่ม benzimidazole เช่น benomyl หรือ carbendazim
+2.ฉีดพ่นด้วย ผลิตภัณฑ์ชีวภัณฑ์ ซุปเปอร์โวก้าโปรคีโตพลัส ในช่วงเย็น (ห้ามใช้สารเคมีกำจัดเชื้อรา ร่วมกับ คีโตพลัส)
+3.เติมสารซุปเปอร์ซิลิคอนโวก้า 1 ช้อนโต๊ะ ในถังฉีด เพื่อเพิ่มประสิทธิภาพของสารเคมีและชึวภัณฑ์
+
+ยาที่ใช้ในการรักษาโรค:
+1.จัมเปอร์
+    https://shope.ee/6fErA9IocH
+2.เค็นจิ
+    https://shope.ee/hvk4PDUH
+3.การ์แรต
+    https://shope.ee/4pnCzc9Bnc
+''')
+            ])
+        
+    if name=="Leaf Blight":
+        line_bot_api.reply_message(
+            event.reply_token, [
+                TextSendMessage(text="ผลการตรวจโรค:"),
+                ImageSendMessage(url,url),
+                TextSendMessage(text=
+'''
+พบเจอโรค ใบติด,ใบไหม้,ใบร่วง (Leaf blight, leaf fall) เชื้อสัมผัสกับใบ ทำให้กิ่งเน่า เกิดจากเชื้อรา Rhizoctonia solani ลักษณะอาการใบจะไหม้ แห้ง และติดกันเป็นกระจุก และร่วงจำนวนมาก ใบติดกันด้วยเส้นใยของเชื้อรา ใบคล้ายถูกน้ำร้อนลวก สีซีด ขอบแผลสีเขียวเข้ม
+
+สาเหตุของโรค:
+-แดดเผา(Sun burn)
+ใบยังไม่แก่พอ ทำให่ความต้านทานต่อแสงแดดมีน้อยเกิดอาการใบไหม้เมื่อมีอุณหภูมิสูว เป็นเวลานาน ใบจะมีอัตราการคายน้ำที่สูงจะเริ่มเหลืองและเกิดอาการใบไหม้
+-การใส่ปุ๋ย สารเคมี
+ผสมปุ๋ยยาที่เข้มข้นเกินไป และการใช้ยาร้อยในขณะยังเป็นใบอ่อนควรให้ปริมาณเหมาะสมกับสภาพของพืช
+-เชื้อฟิวซาเรียม
+ปลายใบทุเรียนจะเป็นใบแห้งๆ ส่องปลายใบกับแดดจะพบสปอร์เป็นขุยขาวๆ ของเชื้อรา ยอกทุเรียนที่แตกใหม่จะสักเกตุขุยสปอร์ทำให้ยอดแห้ง หากเป็นที่กึ่งจะลามรวดเร็วและทำให้กิ่งแห้ง
+-การให้น้ำ
+กระจายวงน้ำให้ทั่วอย่างน้อย80% ของทรงพุ่มโดยเฉพาะช่วงหน้าแล้งอากาศร้อนจัด ถ้าให้น้ำน้อยเกินไปก็จะไปส่งเสริมให้เกิดอาการใบไหม้"Sun Burn" ได้ง่ายขึ้น
+
+วิธีรักษาโรค:
+1.รวมรวมเศษใบที่ร่วงเผาทำลาย กำจัดวัชพืช
+2.ฉีดพ่นด้วย copper oxychloride หรือ mancozeb
+3.ฉีดพ่นด้วย ซุปเปอร์โวก้าโปรคีโตพลัส (ห้ามใช้สารเคมีกำจัดเชื้อรา ร่วมกับ คีโตพลัส)
+4.เติมสารซุปเปอร์ซิลิคอนโวก้า 1 ช้อนโต๊ะ ในถังฉีด เพื่อเพิ่มประสิทธิภาพของ สารเคมี และชีวภัณฑ์
+5.ควบคุมเชื้อราในดิน โดยการใช้ปุ๋ยโวก้าอินทรีย์ ประมาณ 5 กก. ผสมซุปเปอร์โวก้าโปรคีโตพลัส 50 กรัม คลุกให้ทั่ว นำปุ๋ยที่ได้หว่านรอบทรงพุ่มเพื่อควบคุมเชื้อรา
+
+ยาที่ใช้ในการรักษาโรค
+1.จัมเปอร์
+    https://shope.ee/6fErA9IocH
+2.เค็นจิ
+    https://shope.ee/hvk4PDUH
+3.การ์แรต
+    https://shope.ee/4pnCzc9Bnc
+''')
+            ])
+        
+    if name=="Algal leaf Spot":
+        line_bot_api.reply_message(
+            event.reply_token, [
+                TextSendMessage(text="ผลการตรวจโรค:"),
+                ImageSendMessage(url,url),
+                TextSendMessage(text=
+'''
+พบเจอโรค โรคราสนิม (Rust disease) เกิดจากสาหร่าย Cephaleuros virescens Kunze พบ ในใบแก่ ลักษณะเป็นจุดฟูเสีเขียวแกมเหลือง ต่อมาเปลี่ยนเป็นสีเหลืองแกมส้ม ซึ่งเป็นระยะที่สาหร่ายสร้างสปอร์ เพื่อใช้ในการแพร่ระบาด
+
+วิธีรักษาโรค:
+1.ฉีดพ่นด้วย Copper oxychloride
+2.เติมสารซุปเปอร์ซิลิคอนโวก้า 1 ช้อนโต๊ะ ในถังฉีด เพื่อเพิ่มประสิทธิภาพของ สารเคมี และชีวภัณฑ์
+
+ยาที่ใช้ในการรักษาโรค:
+1.จอยท์
+    https://shope.ee/fxe5gOXum
+''')
+            ])
+
+    if name=="Healthy":
+        line_bot_api.reply_message(
+            event.reply_token, [
+                TextSendMessage(text="ผลการตรวจโรค:"),
+                ImageSendMessage(url,url),
+                TextSendMessage(text=
+                '''
+                ใบของคุณมีสภาพแข็งแรงปกติ
+                ''')
+    
+            ])
+
+    else:
+         line_bot_api.reply_message(
+            event.reply_token, [
+                TextSendMessage(text="ไม่ตรวจพบเจอโรค หรือ มีข้อผิดพลาด"),
+            ])
+         
+    name=""
+    
 
 @app.route('/static/<path:path>')
 def send_static_content(path):
